@@ -147,3 +147,13 @@ def GetPaperIDsFromAuthID(authID):
             PapersRetrieved += len(addList)
     return scopeList
 
+def UpdateTotalDocCount(authID):
+    """ This function takes an author ID and returns the total document count for that id in Scopus"""
+    query ='AU-ID('+str(authID)+')'
+    query_params = {'query':query}
+    baseurl = 'http://api.elsevier.com/content/search/author'
+    response = requests.get(baseurl, headers=config.apiKey, params = query_params)
+    data = response.json()
+    resultCount = data['search-results']['entry'][0]['document-count']
+    return resultCount
+
